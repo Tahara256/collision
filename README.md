@@ -35,5 +35,19 @@
 
 ## 衝突判定の組み合わせ最適化
 
-- 八分木
-- 均一格子法
+### [八分木](/Include/Implementation/SpatialPartition/LinearOctreeManager.h)  
+登録されている全コライダー同士の衝突判定とラインキャストのブロードフェーズに使用。  
+基本[まるぺけ](http://marupeke296.com/COL_3D_No15_Octree.html)さんを参考に実装。  
+ラインキャストで必要になったAABBをトラバースする機能を追加で実装。  
+
+#### 使い方
+[LinearOctreeManager](/Include/Implementation/SpatialPartition/LinearOctreeManager.h)クラスにコライダーを追加後、  
+`getCollisionPairList()`メンバ関数で衝突する可能性のあるコライダーの組み合わせリストが、  
+`traverseAABB()`メンバ関数で指定AABBと衝突する可能性のあるコライダーのリストが取得できる。
+![クラス図](/uml/spatial-partition-class-diagram.png)
+
+### 均一格子法  
+地形コライダーが持っている三角形群と、その他のコライダーの衝突判定のブロードフェーズに使用。  
+地形データ(テクスチャ)を均一格子と見立てて、AABBと重なる部分のテクスチャ情報を取得し、三角形を作成。  
+その三角形とのみ衝突判定を行う。
+
