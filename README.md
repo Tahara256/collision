@@ -46,8 +46,14 @@
 
 ## 二種類の判定
 
-- 衝突判定のみ
-- 衝突判定と衝突情報(座標・押出し)計算
+[Collider](/Include/Collider/Collider.h)の`setIsTrigger()`から衝突情報を取得するかを切り替えられる。
+### IsTrigger: true
+衝突判定のみ
+### IsTrigger: false
+衝突判定と衝突情報(座標・押出し)計算
+
+### 使い分け
+判定のみの場合かなり動作が軽くなるため、衝突情報が必要ない場合IsTrigger推奨
 
 ## 衝突判定の組み合わせ最適化
 
