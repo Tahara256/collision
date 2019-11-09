@@ -8,10 +8,6 @@ class TerrainShape final : public CollisionShape {
 
 public:
 
-	/// <summary> ここ中心にデバッグ描画 </summary>
-	//static Vector3 DrawPos;
-
-	/// <summary> コンストラクタ </summary>
 	/// <param name="terrainMesh"> 地形のメッシュ </param>
 	TerrainShape(UniformGridMesh && terrainMesh);
 
