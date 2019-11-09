@@ -1,0 +1,83 @@
+@startuml
+
+title 衝突判定オブジェクト
+
+class CollisionManager
+{
+    + addCollider(collider : collider *) : void
+    + removeCollider(collider : Collider *) : void
+    + linecast(line : Segment, outInfo : LinecastContact *) : bool
+}
+note left
+ここにコライダーを登録すると、
+衝突判定のコールバックが呼ばれラインキャストの対象となる
+end note
+
+'colliders
+class Collider
+{
+    - shape : CollisionShape
+    - transform : Transform
+    + addOnCollisionEnter(callback : std::function<void(Contact))>) : void
+    + addOnCollisionExit(callback : std::function<void(Contact))>) : void
+    + addOnCollisionStay(callback : std::function<void(Contact))>) : void
+}
+note left
+衝突判定を行うオブジェクト
+衝突関連のコールバックはここに追加する
+
+end note
+/'
+class SphereCollider
+class CapsuleCollider
+class BoxCollider
+class TerrainCollider
+'/
+
+'collision shapes
+package CollisionShapes
+{
+abstract CollisionShape
+{
+    + {abstract} getType() : CollisionShapeType
+    + {abstract} coverAABB(Transform worldTransform) : AABB
+}
+note left
+ローカルの衝突判定用形状を抽象的に扱うクラス
+end note
+class SphereShape
+class CapsuleShape
+class BoxShape
+class TerrainShape
+}
+
+class Transform
+{
+    + position : Vector3
+    + rotation : Quaternion
+    + scale : Vector3
+    + toMatrix4x4() : Matrix4x4
+}
+note bottom : ワールド変換を表すクラス
+
+
+CollisionManager "1" o-- "*" Collider
+
+Collider o-- CollisionShape
+Collider o-- Transform
+
+'derived colliders
+/'
+Collider <|-- SphereCollider
+Collider <|-- CapsuleCollider
+Collider <|-- BoxCollider
+Collider <|-- TerrainCollider
+'/
+
+'derived collision shapes
+CollisionShape <|-- SphereShape
+CollisionShape <|-- CapsuleShape
+CollisionShape <|-- BoxShape
+CollisionShape <|-- TerrainShape
+
+@enduml
