@@ -12,6 +12,13 @@
 - 地形(三角形の集合)
 - 線(キャストのみ)
 
+## CollisionShapeクラス
+
+衝突判定用の形状を抽象的に扱うためのクラス。  
+ワールド変換情報は持たず、変換処理のみを持つ。  
+そのため、同じ形状を使用する際には1つのインスタンスを共有することができる。
+![クラス図](/uml/collision-shape-class-diagram.png)
+
 ## 衝突判定のダブルディスパッチ
 
 [CollisionDispatcher](/Include/Implementation/CollisionDispatcher.h)クラスにコライダーを2つ渡すと適切なコリジョン判定関数を呼び出す。
