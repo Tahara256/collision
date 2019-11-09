@@ -39,7 +39,6 @@
 - グローバルなフィルター  
 [CollisionFilter](/Include/CollisionFilter/CollisionFilter.h)インタフェースを実装し、  
 [CollisionManager](/Include/CollisionManager.h)の`setCollisionFilter()`メンバ関数から設定することで衝突判定のフィルタリングがされる。  
-
 コライダーのレイヤーのマトリクスによる判定のフィルターは[NormalCollisionFilter](/Include/CollisionFilter/BuiltIn/NormalCollisionFilter.h)にで実装。
 
 - コライダーごとの個別のフィルター  
