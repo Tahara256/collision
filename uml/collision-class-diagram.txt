@@ -1,0 +1,116 @@
+@startuml
+title Collision
+
+class CollisionManager
+
+'colliders
+class Collider
+{
+    - shape : CollisionShape
+    - transform : Transform
+}
+/'
+class SphereCollider
+class CapsuleCollider
+class BoxCollider
+class TerrainCollider
+'/
+
+'collision shapes
+package CollisionShapes
+{
+abstract CollisionShape
+{
+    + {abstract} getType() : CollisionShapeType
+    + {abstract} coverAABB(Transform worldTransform) : AABB
+}
+class SphereShape
+{
+    - localSphere : Sphere
+    + getWorldSphere(world Transform) : Sphere
+}
+class CapsuleShape
+{
+    - localCapsule : Capsule
+    + getWorldCapsule(world Transform) : Capsule
+}
+class BoxShape
+{
+    - localBox : OBB
+    + getWorldBox(world Transform) : OBB
+}
+class TerrainShape
+{
+    - terrainMesh : UniformGridMesh
+    + getTerrainMesh() : UniformGridMesh
+}
+enum CollisionShapeType
+{
+    Sphere
+    Capsule
+    Box
+    Terrain
+}
+}
+
+'primitive shapes
+class Sphere
+{
+    + center : Vector3
+    + radius : float
+}
+class Capsule
+{
+    カプセルの芯を表す線分
+    + segment : Segment
+    + radius : float
+}
+class OBB
+{
+    + center : Vector3
+    + halfSize : Vector3
+    + rotation : Quaternion
+}
+class UniformGridMesh
+{
+    - terrainComponent : TerrainComponent
+    + getTrianglePair(x : int, z : int) : TrianglePair
+}
+note right : 格子法幅均一な格子上のメッシュ
+
+class Transform
+{
+    + position : Vector3
+    + rotation : Quaternion
+    + scale : Vector3
+    + toMatrix4x4() : Matrix4x4
+}
+note bottom : ワールド変換に使用
+
+CollisionManager "1" o-- "*" Collider
+
+Collider o-- CollisionShape
+Collider o-- Transform
+
+'derived colliders
+/'
+Collider <|-- SphereCollider
+Collider <|-- CapsuleCollider
+Collider <|-- BoxCollider
+Collider <|-- TerrainCollider
+'/
+
+'derived collision shapes
+CollisionShape - CollisionShapeType
+CollisionShape <|-- SphereShape
+CollisionShape <|-- CapsuleShape
+CollisionShape <|-- BoxShape
+CollisionShape <|-- TerrainShape
+SphereShape *-- Sphere
+CapsuleShape *-- Capsule
+BoxShape *-- OBB
+TerrainShape *-- UniformGridMesh
+UniformGridMesh -- Triangle
+UniformGridMesh o-- TerrainComponent
+
+@enduml
