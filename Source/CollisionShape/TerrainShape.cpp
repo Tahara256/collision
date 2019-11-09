@@ -6,8 +6,6 @@
 
 using namespace CollisionUtility;
 
-//Vector3 TerrainShape::DrawPos = Vector3::zero;
-
 TerrainShape::TerrainShape(UniformGridMesh && terrainMesh) :
 	_terrainMesh(terrainMesh) {
 }
@@ -66,28 +64,7 @@ bool TerrainShape::linecast(const TransformQ & transform, const Segment & line, 
 }
 
 void TerrainShape::drawWireFrame(const TransformQ & transform, const Vector4 & color) const {
-	//const auto offset = Vector3(1, 1, 1);
-	//decltype(auto) aabb = AABB(DrawPos - offset, DrawPos + offset);
-
-	//// AABBの最小値・最大値のXZ座標を使用して
-	//// 均一格子からAABBが触れている格子の最小添え字と最大添え字を取得する
-	//auto minXIndex = UniformGridMesh::Index();
-	//auto minZIndex = UniformGridMesh::Index();
-	//auto maxXIndex = UniformGridMesh::Index();
-	//auto maxZIndex = UniformGridMesh::Index();
-
-	//_terrainMesh.getMinMaxIndex(aabb, &minXIndex, &minZIndex, &maxXIndex, &maxZIndex);
-
-	//for (auto x = minXIndex; x <= maxXIndex; x++) {
-	//	for (auto z = minZIndex; z <= maxZIndex; z++) {
-	//		auto trianglePair = _terrainMesh.getTrianglePair(x, z);
-
-	//		for (auto i = 0; i < 3; i++) {
-	//			decltype(auto) edge = edgeFromFace(trianglePair.first, i);
-	//			SceneRendererManager::debugDrawLine(edge.start(), edge.end(), color);
-	//		}
-	//	}
-	//}
+    // 重いので無
 }
 
 const UniformGridMesh & TerrainShape::getTerrainMesh() const {
