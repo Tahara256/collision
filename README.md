@@ -36,11 +36,14 @@
 
 ## 衝突判定のフィルター
 
-- グローバルなマトリクスによるフィルター
-[CollisionFilter](/Include/CollisionFilter/CollisionFilter.h)インタフェースを実装し、
-[CollisionManager](/Include/CollisionManager.h)の`setCollisionFilter()`メンバ関数から設定することで衝突判定のフィルタリングがされる。
+- グローバルなフィルター  
+[CollisionFilter](/Include/CollisionFilter/CollisionFilter.h)インタフェースを実装し、  
+[CollisionManager](/Include/CollisionManager.h)の`setCollisionFilter()`メンバ関数から設定することで衝突判定のフィルタリングがされる。  
 
-- コライダーごとの個別のフィルター
+コライダーのレイヤーのマトリクスによる判定のフィルターは[NormalCollisionFilter](/Include/CollisionFilter/BuiltIn/NormalCollisionFilter.h)にで実装。
+
+- コライダーごとの個別のフィルター  
+[Collider](/Include/Collider/Collider.h)の`setCollisionMask()`メンバ関数からマスクを登録することで、個別に衝突判定をフィルタリングすることができる。
 
 ## 二種類の判定
 
