@@ -1,0 +1,59 @@
+@startuml
+
+title 空間分割による衝突判定最適化
+
+class CollisionManager
+class Collider
+
+package Acceleration
+{
+class LinearOctreeManager
+note left
+オブジェクトを木へ配置する処理と、
+衝突する可能性のあるペアの取得と、
+八分木へのラインキャストを行うクラス
+end note
+
+class LinearTree<class Node, int BranchCount>
+{
+    - cells : std::vector<Node>
+}
+note right
+線形配列を木構造として扱うクラス
+型引数で要素型と分割軸数を指定する
+end note
+
+class CalcLinearTreeIndex<int BranchCount>
+note bottom
+モートン符号と空間レベルから配列の添え字取得
+end note
+
+class SpaceCell
+{
+    - attachedObjects : std::list<OctreeObject *>
+}
+note bottom
+木の各要素となる分割された空間クラス
+その空間に存在するオブジェクトのリストを保持
+end note
+
+abstract OctreeObject
+{
+    - cell : SpaceCell *
+}
+note bottom : 八分木に登録するための抽象クラス
+}
+
+'relationships
+CollisionManager "1" *-- "1" LinearOctreeManager
+CollisionManager "1" o-- "*" Collider
+
+LinearOctreeManager "1" *-- "1" LinearTree
+LinearTree *-- CalcLinearTreeIndex
+LinearTree "1" *-- "*" SpaceCell
+
+SpaceCell "1" o-- "*" OctreeObject
+
+OctreeObject <|-- Collider
+
+@enduml
