@@ -1,0 +1,106 @@
+@startuml
+title 衝突判定用形状クラス
+
+class Collider
+{
+    - shape : CollisionShape
+    - transform : Transform
+}
+
+'collision shapes
+package CollisionShapes
+{
+abstract CollisionShape
+{
+    + {abstract} getType() : CollisionShapeType
+    + {abstract} coverAABB(Transform worldTransform) : AABB
+}
+note left
+衝突判定用形状を抽象的に扱うためのクラス
+end note
+
+class SphereShape
+{
+    - localSphere : Sphere
+    + getWorldSphere(world Transform) : Sphere
+}
+class CapsuleShape
+{
+    - localCapsule : Capsule
+    + getWorldCapsule(world Transform) : Capsule
+}
+class BoxShape
+{
+    - localBox : OBB
+    + getWorldBox(world Transform) : OBB
+}
+class TerrainShape
+{
+    - terrainMesh : UniformGridMesh
+    + getTerrainMesh() : UniformGridMesh
+}
+enum CollisionShapeType
+{
+    Sphere
+    Capsule
+    Box
+    Terrain
+}
+note right
+形状の種類を示す列挙型
+ダブルディスパッチに使用
+end note
+}
+
+'primitive shapes
+class Sphere
+{
+    + center : Vector3
+    + radius : float
+}
+class Capsule
+{
+    カプセルの芯を表す線分
+    + segment : Segment
+    + radius : float
+}
+class OBB
+{
+    + center : Vector3
+    + halfSize : Vector3
+    + rotation : Quaternion
+}
+class UniformGridMesh
+{
+    - terrainComponent : TerrainComponent
+    + getTrianglePair(x : int, z : int) : TrianglePair
+}
+note right : 格子法幅均一な格子上のメッシュ
+
+class TerrainComponent
+note bottom : 地形のデータを取得できるクラス(他人が実装)
+
+class Triangle
+note bottom
+地形データから生成され
+この三角形群と衝突判定する
+end note
+
+'relationships
+
+Collider o-- CollisionShape
+
+'derived collision shapes
+CollisionShape - CollisionShapeType
+CollisionShape <|-- SphereShape
+CollisionShape <|-- CapsuleShape
+CollisionShape <|-- BoxShape
+CollisionShape <|-- TerrainShape
+SphereShape *-- Sphere
+CapsuleShape *-- Capsule
+BoxShape *-- OBB
+TerrainShape *-- UniformGridMesh
+UniformGridMesh -- Triangle
+UniformGridMesh o-- TerrainComponent
+
+@enduml
