@@ -12,7 +12,14 @@
 - 地形(三角形の集合)
 - 線(キャストのみ)
 
-## CollisionShapeクラス
+## [Collider](/Include/Collider/Collider.h)クラス
+
+衝突判定を行うオブジェクト。  
+形状抽象クラス(`CollisionShape`)とワールド変換情報(`TransformQ`)を持っている。  
+衝突関連のコールバックはここに登録する。
+![クラス図](/uml/collider-class-diagram.png)
+
+## [CollisionShape](/Include/CollisionShape/CollisionShape.h)クラス
 
 衝突判定用の形状を抽象的に扱うためのクラス。  
 ワールド変換情報は持たず、変換処理のみを持つ。  
