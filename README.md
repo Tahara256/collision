@@ -35,7 +35,7 @@
 
 ## 衝突判定の組み合わせ最適化
 
-### [八分木](/Include/Implementation/SpatialPartition/LinearOctreeManager.h)  
+### 八分木  
 登録されている全コライダー同士の衝突判定とラインキャストのブロードフェーズに使用。  
 基本[まるぺけ](http://marupeke296.com/COL_3D_No15_Octree.html)さんを参考に実装。  
 ラインキャストで必要になったAABBをトラバースする機能を追加で実装。  
