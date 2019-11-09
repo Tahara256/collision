@@ -8,15 +8,27 @@ class Collider
 package Acceleration
 {
 class LinearOctreeManager
+{
+    - octree : LinearTree<SpaceCell, 8>
+    - objects : std::list<OctreeObject *>
+    + addObject(OctreeObject * object) : void
+    + removeObject(OctreeObject * object) : void
+    + getCollisionPairList(outCollisionPairList : std::list<OctreeObject *> *) : void
+    + traverseAABB(aabb : AABB, outCollisionList : std::list<OctreeObject *> *) : void
+}
 note left
 オブジェクトを木へ配置する処理と、
 衝突する可能性のあるペアの取得と、
-八分木へのラインキャストを行うクラス
+指定AABBと衝突する可能性のあるリストの取得を行うクラス
 end note
 
 class LinearTree<class Node, int BranchCount>
 {
     - cells : std::vector<Node>
+    - indexGetter : CalcLinearTreeIndex<BranchCount>
+    + getCell(mortonCode : int, level : int) : Node &
+    + getChildIndex(parentIndex : int, localChildIndex : int) : int
+    + getParentIndex(childIndex : int) : int
 }
 note right
 線形配列を木構造として扱うクラス
@@ -40,8 +52,13 @@ end note
 abstract OctreeObject
 {
     - cell : SpaceCell *
+    + setCell(cell : SpaceCell *) : void
+    + detach() : void
 }
-note bottom : 八分木に登録するための抽象クラス
+note bottom
+八分木に登録するための抽象クラス
+O(1)で登録解除のため、自身が登録されている空間への参照を保持
+end note
 }
 
 'relationships
@@ -49,6 +66,7 @@ CollisionManager "1" *-- "1" LinearOctreeManager
 CollisionManager "1" o-- "*" Collider
 
 LinearOctreeManager "1" *-- "1" LinearTree
+LinearOctreeManager "1" o-- "*" OctreeObject
 LinearTree *-- CalcLinearTreeIndex
 LinearTree "1" *-- "*" SpaceCell
 
